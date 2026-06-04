@@ -2,7 +2,11 @@ from flask import Flask, render_template, request
 import nmap
 
 app = Flask(__name__)
-nm = nmap.PortScanner()
+import os
+
+# Tell python-nmap to use our custom portable binary path
+nmap_path = os.path.join(os.path.dirname(__file__), 'bin', 'nmap')
+nm = nmap.PortScanner(nmap_search_path=[nmap_path])
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
