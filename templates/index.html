@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nmap Network Scanner</title>
+    <style>
+        body { font-family: sans-serif; margin: 40px; background: #f4f4f9; }
+        max-width { width: 600px; margin: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #333; color: white; }
+    </style>
+</head>
+<body>
+    <div style="max-width: 600px; margin: auto;">
+        <h2>Network Scans</h2>
+        
+        <form method="POST">
+            <input type="text" name="target" placeholder="e.g., 127.0.0.1" value="{{ target }}" required style="padding: 10px; width: 70%;">
+            <button type="submit" style="padding: 10px; background: #007BFF; color: white; border: none; cursor: pointer;">Scan</button>
+        </form>
+
+        {% if results %}
+            <h3>Scan Results for: {{ target }}</h3>
+            <table>
+                <tr>
+                    <th>Port</th>
+                    <th>Protocol</th>
+                    <th>State</th>
+                    <th>Service</th>
+                </tr>
+                {% for result in results %}
+                <tr>
+                    <td>{{ result.port }}</td>
+                    <td>{{ result.protocol }}</td>
+                    <td>{{ result.state }}</td>
+                    <td>{{ result.service }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+</body>
+</html>
