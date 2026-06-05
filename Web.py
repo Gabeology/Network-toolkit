@@ -1,3 +1,24 @@
+import os
+import sys
+import nmap
+
+# 1. Figure out if we are running on Render (Linux) or locally (Windows)
+if sys.platform.startswith('win'):
+    # You are on Windows (Local VS Code)! Tell it to look at your standard installer path
+    nmap_path = r"C:\Program Files (x86)\Nmap\nmap.exe"
+    nm = nmap.PortScanner(nmap_search_path=[nmap_path])
+else:
+    # You are on Linux (Render Cloud)! Use the portable binary we bundled
+    nmap_path = os.path.join(os.path.dirname(__file__), 'bin', 'nmap')
+    
+    # Crucial Render Fix: Force Linux execution permissions on the binary file
+    try:
+        os.chmod(nmap_path, 0o755)
+    except Exception as e:
+        print(f"Note: Could not alter permissions: {e}")
+        
+    nm = nmap.PortScanner(nmap_search_path=[nmap_path])
+
 from flask import Flask, render_template, request
 import nmap
 
